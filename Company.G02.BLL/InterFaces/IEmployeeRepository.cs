@@ -1,4 +1,5 @@
-﻿using Company.G02.DAL.Modles;
+﻿using Company.G02.BLL.Repositories;
+using Company.G02.DAL.Modles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,8 @@ using System.Threading.Tasks;
 
 namespace Company.G02.BLL.InterFaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IGenericReposiotry<Employee>
     {
-        IEnumerable<Employee> GetAll();
 
-        Employee? Get(int id);
-
-
-        int Add(Employee employee);
-
-        int Update(Employee employee);
-
-
-        int Delete(Employee employee);
     }
 }

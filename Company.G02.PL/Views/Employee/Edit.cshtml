@@ -1,0 +1,70 @@
+﻿@model Employee;
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Employee</h1>
+<br />
+<br />
+
+<form asp-action="Edit">
+    <div>
+        <div>
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label asp-for="Age" class="form-label mt-3"></label>
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Email" class="form-label mt-3"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Address" class="form-label mt-3"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Phone" class="form-label mt-3"></label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Salary" class="form-label mt-3"></label>
+            <input asp-for="Salary" class="form-control" />
+            <span asp-validation-for="Salary" class="text-danger"></span>
+        </div>
+        <div>
+            <input asp-for="IsActive" class="form-check mt-3" />
+            <label asp-for="IsActive" class="form-label mt-3"></label>
+        </div>
+        <div>
+            <input asp-for="IsDeleted" class="form-check" />
+            <label asp-for="IsDeleted" class="form-label mt-3"></label>
+        </div>
+        <div>
+            <label asp-for="HireDate" class="form-label mt-3"></label>
+            <input asp-for="HireDate" class="form-control" />
+            <span asp-validation-for="HireDate" class="text-danger"></span>
+        </div>
+        <div>
+
+            <label asp-for="CreateAt" class="form-label mt-3"></label>
+            <input asp-for="CreateAt" class="form-control" />
+            <span asp-validation-for="CreateAt" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="m-4 ">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Save</a>
+
+        <a asp-action="Index" class="btn btn-light mt-3">Back to List</a>
+    </div>
+</form>
+
