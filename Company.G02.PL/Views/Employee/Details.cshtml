@@ -1,0 +1,63 @@
+﻿@model Employee; 
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details Page</h1>
+
+
+<br />
+<br />
+
+<div >
+    <div>
+        <div>
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" readonly />
+        </div>
+
+        <div>
+            <label asp-for="Age" class="form-label mt-3"></label>
+            <input asp-for="Age" class="form-control" readonly />
+        </div>
+        <div>
+            <label asp-for="Email" class="form-label mt-3"></label>
+            <input asp-for="Email" class="form-control" readonly />
+        </div>
+        <div>
+            <label asp-for="Address" class="form-label mt-3"></label>
+            <input asp-for="Address" class="form-control" readonly />
+        </div>
+        <div>
+            <label asp-for="Phone" class="form-label mt-3"></label>
+            <input asp-for="Phone" class="form-control" readonly />
+        </div>
+        <div>
+            <label asp-for="Salary" class="form-label mt-3"></label>
+            <input asp-for="Salary" class="form-control" readonly />
+        </div>
+        <div>
+            <input asp-for="IsActive" class="form-check mt-3" readonly />
+        </div>
+        <div>
+            <input asp-for="IsDeleted" class="form-check" readonly />
+            <label asp-for="IsDeleted" class="form-label mt-3"></label>
+        </div>
+        <div>
+            <label asp-for="HireDate" class="form-label mt-3"></label>
+            <input asp-for="HireDate" class="form-control" readonly />
+        </div>
+        <div>
+
+            <label asp-for="CreateAt" class="form-label mt-3"></label>
+            <input asp-for="CreateAt" class="form-control" readonly/>
+        </div>
+    </div>
+
+    <div class="m-4 ">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+
+        <a asp-action="Index" class="btn btn-light mt-3">Back to List</a>
+    </div>
+</div>
+

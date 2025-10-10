@@ -7,19 +7,9 @@ using System.Threading.Tasks;
 
 namespace Company.G02.BLL.InterFaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IGenericReposiotry<Department>
     {
-        IEnumerable<Department> GetAll();
-
-        Department? Get(int id);
-
-
-        int Add(Department department);
-
-        int Update(Department department);
-
-
-        int Delete(Department department);
+       
 
     }
 }
