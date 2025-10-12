@@ -62,9 +62,12 @@
     </div>
 
     <div class="m-4 ">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Save</a>
+        <input type="submit" value="Save" class="btn btn-warning mt-3 " />
 
         <a asp-action="Index" class="btn btn-light mt-3">Back to List</a>
     </div>
 </form>
 
+@section ValidationSection {
+    <partial name="_ValidationScriptsPartial" />
+}
