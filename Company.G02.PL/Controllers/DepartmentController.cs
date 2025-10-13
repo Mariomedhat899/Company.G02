@@ -52,7 +52,7 @@ namespace Company.G02.PL.Controllers
 
         [HttpGet]
 
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id, string viewName = "Details")
         {
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
@@ -61,19 +61,17 @@ namespace Company.G02.PL.Controllers
 
             if (department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
-
-            return View(department);
-
+           
 
 
-
+            return View(viewName,department);
 
 
         }
 
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit([FromRoute]int? id)
         {
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
@@ -82,8 +80,17 @@ namespace Company.G02.PL.Controllers
 
             if (department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
+            var DepartmentDto = new CreateDepartmentDto()
+            {
+                Id =id.Value,
+                Code = department.Code,
+                Name = department.Name,
+                CreateAt = department.CreateAt
+            };
 
-            return View(department);
+
+
+            return View(DepartmentDto);
 
 
         }
@@ -91,15 +98,23 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int id, Department department)
+        public IActionResult Edit([FromRoute] int id, CreateDepartmentDto department)
         {
 
 
 
             if (ModelState.IsValid)
             {
-                if (id != department.Id) return BadRequest("Id Is Not Matched");
-                var Count = _department.Update(department);
+                //if (id != department.Id) return BadRequest("Id Is Not Matched");
+
+                var _Department = new Department()
+                {
+                    Id = id,
+                    Code = department.Code,
+                    Name = department.Name,
+                    CreateAt = department.CreateAt
+                };
+                var Count = _department.Update(_Department);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));

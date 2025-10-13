@@ -78,22 +78,49 @@ namespace Company.G02.PL.Controllers
 
             var employee = _employeeRepository.Get(id.Value);
 
-            if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
+            if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
+            var employeeDto = new CreateEmployeeDto()
+            {
+                Name = employee.Name,
+                Email = employee.Email,
+                HireDate = employee.HireDate,
+                CreateAt = employee.CreateAt,
+                Age = employee.Age,
+                Address = employee.Address,
+                Salary = employee.Salary,
+                IsActive = employee.IsActive,
+                IsDeleted = employee.IsDeleted,
+                Phone = employee.Phone
 
+            };
 
-            return View(employee);
+            return View(employeeDto);
         }
 
         [HttpPost]
 
-        public IActionResult Edit([FromRoute] int? id, Employee employee)
+        public IActionResult Edit([FromRoute] int id, CreateEmployeeDto employee)
         {
 
             if (ModelState.IsValid)
             {
-                if (id != employee.Id) return BadRequest();
+                //if (id != employee.Id) return BadRequest();
+                var _employee = new Employee()
+                {
+                    Id =id,
+                    Name = employee.Name,
+                    Email = employee.Email,
+                    HireDate = employee.HireDate,
+                    CreateAt = employee.CreateAt,
+                    Age = employee.Age,
+                    Address = employee.Address,
+                    Salary = employee.Salary,
+                    IsActive = employee.IsActive,
+                    IsDeleted = employee.IsDeleted,
+                    Phone = employee.Phone
 
-                var count = _employeeRepository.Update(employee);
+                };
+                var count = _employeeRepository.Update(_employee);
 
                 if (count > 0)
                 {
