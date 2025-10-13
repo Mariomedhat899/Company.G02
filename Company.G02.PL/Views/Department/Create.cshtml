@@ -11,25 +11,8 @@
 <br />
 
 <form asp-action="Create">
-    <div>
-       <div>
-            <label asp-for="Code" class="form-label"></label>
-            <input asp-for="Code" class="form-control" />
-            <span asp-validation-for="Code" class="text-danger"></span>
-       </div>
+    <partial name="DepartmentPV/_CreateEditPV" />
 
-        <div>
-            <label asp-for="Name" class="form-label mt-3"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div>
-
-            <label asp-for="CreateAt" class="form-label mt-3"></label>
-            <input asp-for="CreateAt" class="form-control" />
-            <span asp-validation-for="CreateAt" class="text-danger"></span>
-        </div>
-    </div>
 
     <div class="m-4 ">
         <input type="submit" value="Create" class="btn btn-primary mt-3 " />

@@ -36,12 +36,16 @@
             <label asp-for="Salary" class="form-label mt-3"></label>
             <input asp-for="Salary" class="form-control" readonly />
         </div>
+
+
         <div>
-            <input asp-for="IsActive" class="form-check mt-3" readonly />
+            <input asp-for="IsActive" class="form-check" readonly />
+            <label asp-for="IsActive" class="form-label mt-3"  readonly></label>
+
         </div>
         <div>
             <input asp-for="IsDeleted" class="form-check" readonly />
-            <label asp-for="IsDeleted" class="form-label mt-3"></label>
+            <label asp-for="IsDeleted" class="form-label mt-3" readonly></label>
         </div>
         <div>
             <label asp-for="HireDate" class="form-label mt-3"></label>
