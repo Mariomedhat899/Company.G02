@@ -9,7 +9,7 @@ namespace Company.G02.DAL.Modles
     public class Department :BaseEntity
     {
       
-
+        public List<Employee> Employees { get; set; }   
         public string Code { get; set; }
 
         public string Name { get; set; }

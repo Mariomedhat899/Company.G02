@@ -1,6 +1,7 @@
 ﻿using Company.G02.BLL.InterFaces;
 using Company.G02.DAL.Data.Contexts;
 using Company.G02.DAL.Modles;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,18 @@ namespace Company.G02.BLL.Repositories
         }
         public IEnumerable<T> GetAll()
         {
+            if(typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>) _context.Employees.Include(e => e.Department).ToList();
+            }
             return _context.Set<T>().ToList();
         }
         public T? Get(int id)
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return _context.Employees.Include(e => e.Department).FirstOrDefault(e => e.Id == id) as T;
+            }
             return _context.Set<T>().Find(id);
         }
 
