@@ -1,4 +1,5 @@
-﻿using Company.G02.BLL.InterFaces;
+﻿using AutoMapper;
+using Company.G02.BLL.InterFaces;
 using Company.G02.BLL.Repositories;
 using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
@@ -8,10 +9,12 @@ namespace Company.G02.PL.Controllers
 {
     public class DepartmentController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IDepartmentRepository _department;
 
-        public DepartmentController(IDepartmentRepository department)
+        public DepartmentController(IMapper mapper,IDepartmentRepository department)
         {
+            _mapper = mapper;
             _department = department;
         }
 
@@ -35,12 +38,13 @@ namespace Company.G02.PL.Controllers
 
             if (ModelState.IsValid)
             {
-                var department = new Department()
-                {
-                    Code = model.Code,
-                    Name = model.Name,
-                    CreateAt = model.CreateAt
-                };
+                //var department = new Department()
+                //{
+                //    Code = model.Code,
+                //    Name = model.Name,
+                //    CreateAt = model.CreateAt
+                //};
+                var department = _mapper.Map<Department>(model);
                 var Count = _department.Add(department);
                 if (Count > 0)
                 {
@@ -80,13 +84,15 @@ namespace Company.G02.PL.Controllers
 
             if (department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
-            var DepartmentDto = new CreateDepartmentDto()
-            {
-                Id =id.Value,
-                Code = department.Code,
-                Name = department.Name,
-                CreateAt = department.CreateAt
-            };
+            //var DepartmentDto = new CreateDepartmentDto()
+            //{
+            //    Id =id.Value,
+            //    Code = department.Code,
+            //    Name = department.Name,
+            //    CreateAt = department.CreateAt
+            //};
+
+            var DepartmentDto = _mapper.Map<CreateDepartmentDto>(department);
 
 
 

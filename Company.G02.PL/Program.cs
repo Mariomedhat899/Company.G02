@@ -1,7 +1,9 @@
 using Company.G02.BLL.InterFaces;
 using Company.G02.BLL.Repositories;
 using Company.G02.DAL.Data.Contexts;
+using Company.G02.PL.Mapping;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Company.G02.PL
 {
@@ -13,6 +15,10 @@ namespace Company.G02.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAutoMapper(m => m.AddProfile(new EmployeeProfle()));
+            builder.Services.AddAutoMapper(m => m.AddProfile(new DepartmentProfile()));
+
 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
