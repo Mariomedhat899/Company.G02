@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Company.G02.BLL;
 using Company.G02.BLL.InterFaces;
 using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
@@ -11,11 +12,13 @@ namespace Company.G02.PL.Controllers
     public class EmployeeController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(IMapper mapper,IEmployeeRepository employeeRepository)
+        private readonly IUnitOfWork _unitOfWork;
+       
+        public EmployeeController(IMapper mapper,IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _employeeRepository = employeeRepository;
+            _unitOfWork = unitOfWork;
+            
 
           
         }
@@ -26,10 +29,10 @@ namespace Company.G02.PL.Controllers
 
             if (SearchInput is null )
             {
-             employees = _employeeRepository.GetAll();
+             employees = _unitOfWork.EmployeeRepository.GetAll();
             }else
             {
-                 employees = _employeeRepository.GetByName(SearchInput);
+                 employees = _unitOfWork.EmployeeRepository.GetByName(SearchInput);
             }
 
             return View(employees);
@@ -62,8 +65,9 @@ namespace Company.G02.PL.Controllers
 
                 //};
                 var employee = _mapper.Map<Employee>(model);
-                var Count = _employeeRepository.Add(employee);
-                if (Count > 0)
+                _unitOfWork.EmployeeRepository.Add(employee);
+                var count = _unitOfWork.Complete();
+                if (count > 0)
                 {
                     return RedirectToAction("Index");
                 }
@@ -79,7 +83,7 @@ namespace Company.G02.PL.Controllers
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
-            var employee = _employeeRepository.Get(id.Value);
+            var employee = _unitOfWork.EmployeeRepository.Get(id.Value);
 
             if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
 
@@ -94,7 +98,7 @@ namespace Company.G02.PL.Controllers
         public IActionResult Edit([FromRoute] int? id)
         {
 
-            var employee = _employeeRepository.Get(id.Value);
+            var employee = _unitOfWork.EmployeeRepository.Get(id.Value);
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
 
@@ -138,7 +142,9 @@ namespace Company.G02.PL.Controllers
 
 
 
-                var count = _employeeRepository.Update(_employee);
+                 _unitOfWork.EmployeeRepository.Update(_employee);
+
+                var count = _unitOfWork.Complete();
 
                 if (count > 0)
                 {
@@ -153,9 +159,10 @@ namespace Company.G02.PL.Controllers
         public IActionResult Delete([FromRoute]int? id)
         {
             if (id <= 0) return BadRequest("Invalid Id!");
-            var employee = _employeeRepository.Get(id.Value); if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
+            var employee = _unitOfWork.EmployeeRepository.Get(id.Value); if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
 
-            var count = _employeeRepository.Delete(employee);
+            _unitOfWork.EmployeeRepository.Delete(employee);
+            var count = _unitOfWork.Complete();
 
             if (count > 0)
             {

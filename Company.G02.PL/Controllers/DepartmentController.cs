@@ -10,18 +10,18 @@ namespace Company.G02.PL.Controllers
     public class DepartmentController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IDepartmentRepository _department;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentController(IMapper mapper,IDepartmentRepository department)
+        public DepartmentController(IMapper mapper,IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _department = department;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var department = _department.GetAll();
+            var department = _unitOfWork.DepartmentRepository.GetAll();
             return View(department);
         }
 
@@ -45,7 +45,9 @@ namespace Company.G02.PL.Controllers
                 //    CreateAt = model.CreateAt
                 //};
                 var department = _mapper.Map<Department>(model);
-                var Count = _department.Add(department);
+                _unitOfWork.DepartmentRepository.Add(department);
+
+                var Count = _unitOfWork.Complete();
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -61,7 +63,7 @@ namespace Company.G02.PL.Controllers
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
-            var department = _department.Get(id.Value);
+            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
 
             if (department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
@@ -80,7 +82,7 @@ namespace Company.G02.PL.Controllers
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
-            var department = _department.Get(id.Value);
+            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
 
             if (department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
@@ -113,14 +115,16 @@ namespace Company.G02.PL.Controllers
             {
                 //if (id != department.Id) return BadRequest("Id Is Not Matched");
 
-                var _Department = new Department()
-                {
-                    Id = id,
-                    Code = department.Code,
-                    Name = department.Name,
-                    CreateAt = department.CreateAt
-                };
-                var Count = _department.Update(_Department);
+                //var _Department = new Department()
+                //{
+                //    Id = id,
+                //    Code = department.Code,
+                //    Name = department.Name,
+                //    CreateAt = department.CreateAt
+                //};
+                var _Department = _mapper.Map<Department>(department);
+                _unitOfWork.DepartmentRepository.Update(_Department);
+                var Count = _unitOfWork.Complete();
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -158,11 +162,12 @@ namespace Company.G02.PL.Controllers
             if(id <= 0) return BadRequest("Invalid Id!");
 
 
-            var department = _department.Get(id);
+            var department = _unitOfWork.DepartmentRepository.Get(id);
 
             if(department == null) return NotFound(new { StatusCode = 404, massage = $"The Department With ID:{id} Is Not Found!" });
 
-            var Count = _department.Delete(department);
+            _unitOfWork.DepartmentRepository.Delete(department);
+            var Count = _unitOfWork.Complete();
 
             if (Count > 0)
             {
