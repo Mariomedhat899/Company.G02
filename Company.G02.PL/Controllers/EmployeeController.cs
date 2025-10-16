@@ -12,13 +12,12 @@ namespace Company.G02.PL.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
-        public EmployeeController(IMapper mapper,IEmployeeRepository employeeRepository,IDepartmentRepository _department)
+        public EmployeeController(IMapper mapper,IEmployeeRepository employeeRepository)
         {
             _mapper = mapper;
             _employeeRepository = employeeRepository;
 
-            _departmentRepository = _department;
+          
         }
         [HttpGet]
         public IActionResult Index(string? SearchInput)
@@ -39,8 +38,6 @@ namespace Company.G02.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var departments = _departmentRepository.GetAll();
-            ViewData["Departments"] = departments;
 
             return View();
         }
@@ -100,8 +97,6 @@ namespace Company.G02.PL.Controllers
             var employee = _employeeRepository.Get(id.Value);
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
-            var departments = _departmentRepository.GetAll();
-            ViewData["Departments"] = departments;
 
             if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
             var dto = _mapper.Map<CreateEmployeeDto>(employee);
@@ -120,25 +115,26 @@ namespace Company.G02.PL.Controllers
             {
                 
                 //if (id != employee.Id) return BadRequest();
-                ViewBag.Departments = new SelectList(_departmentRepository.GetAll(), "Id", "Name", employee.DepartmentId);
-                var _employee = new Employee()
-                {
-                    Id = id,
-                    Name = employee.Name,
-                    Email = employee.Email,
-                    HireDate = employee.HireDate,
-                    CreateAt = employee.CreateAt,
-                    Age = employee.Age,
-                    Address = employee.Address,
-                    Salary = employee.Salary,
-                    IsActive = employee.IsActive,
-                    IsDeleted = employee.IsDeleted,
-                    Phone = employee.Phone,
-                    DepartmentId = employee.DepartmentId
+                //var _employee = new Employee()
+                //{
+                //    Id = id,
+                //    Name = employee.Name,
+                //    Email = employee.Email,
+                //    HireDate = employee.HireDate,
+                //    CreateAt = employee.CreateAt,
+                //    Age = employee.Age,
+                //    Address = employee.Address,
+                //    Salary = employee.Salary,
+                //    IsActive = employee.IsActive,
+                //    IsDeleted = employee.IsDeleted,
+                //    Phone = employee.Phone,
+                //    DepartmentId = employee.DepartmentId
 
-                };
+                //};
 
-               
+               var _employee = _mapper.Map<Employee>(employee);
+
+                _employee.Id = id;
 
 
 
