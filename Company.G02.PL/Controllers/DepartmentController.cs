@@ -3,11 +3,13 @@ using Company.G02.BLL.InterFaces;
 using Company.G02.BLL.Repositories;
 using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Company.G02.PL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         private readonly IMapper _mapper;
