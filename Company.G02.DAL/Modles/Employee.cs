@@ -36,6 +36,8 @@ namespace Company.G02.DAL.Modles
 
         public string Phone { get; set; }
 
+
+        [DisplayName("Image")]
         public string? IMGName { get; set; }
 
   

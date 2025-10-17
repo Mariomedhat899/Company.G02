@@ -38,8 +38,10 @@ namespace Company.G02.PL.DTOS
         [DisplayName("Departments")]
         public int? DepartmentId { get; set; }
 
+        [DisplayName("Image")]
         public IFormFile? IMGFile { get; set; }
 
+        [DisplayName("Image")]
         public string? IMGName { get; set; }
 
 

@@ -1,7 +1,7 @@
 ﻿@model CreateEmployeeDto
 @inject IUnitOfWork _unitOfWork
 @{
-    var department = new SelectList(_unitOfWork.DepartmentRepository.GetAll(), "Id", "Name");
+    var department = new SelectList(await _unitOfWork.DepartmentRepository.GetAllAsync(), "Id", "Name");
 }
 
 <div>

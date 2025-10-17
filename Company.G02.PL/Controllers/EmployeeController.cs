@@ -8,6 +8,7 @@ using GemBox.Document;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace Company.G02.PL.Controllers
 {
@@ -25,16 +26,16 @@ namespace Company.G02.PL.Controllers
           
         }
         [HttpGet]
-        public IActionResult Index(string? SearchInput)
+        public async Task<IActionResult> Index(string? SearchInput)
         {
              IEnumerable<Employee> employees;
 
             if (SearchInput is null )
             {
-             employees = _unitOfWork.EmployeeRepository.GetAll();
+             employees = await _unitOfWork.EmployeeRepository.GetAllAsync();
             }else
             {
-                 employees = _unitOfWork.EmployeeRepository.GetByName(SearchInput);
+                 employees = await _unitOfWork.EmployeeRepository.GetByNameAsync(SearchInput);
             }
 
             return View(employees);
@@ -47,7 +48,7 @@ namespace Company.G02.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto model)
+        public async Task<IActionResult> Create(CreateEmployeeDto model)
         {
                     if (model.IMGFile != null) model.IMGName = DoucumentSettings.UploadFile(model.IMGFile, "Images");
 
@@ -56,8 +57,8 @@ namespace Company.G02.PL.Controllers
             {
                
                 var employee = _mapper.Map<Employee>(model);
-                _unitOfWork.EmployeeRepository.Add(employee);
-                var count = _unitOfWork.Complete();
+                await _unitOfWork.EmployeeRepository.AddAsync(employee);
+                var count = await _unitOfWork.CompleteAsync();
                 if (count > 0)
                 {
                     return RedirectToAction("Index");
@@ -69,12 +70,12 @@ namespace Company.G02.PL.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int? id,string viewName ="Details")
+        public async Task<IActionResult> Details(int? id,string viewName ="Details")
         {
 
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
-            var employee = _unitOfWork.EmployeeRepository.Get(id.Value);
+            var employee = await _unitOfWork.EmployeeRepository.GetAsync(id.Value);
 
             if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
 
@@ -86,10 +87,11 @@ namespace Company.G02.PL.Controllers
 
         [HttpGet]
 
-        public IActionResult Edit([FromRoute] int? id)
+        public async Task<IActionResult> Edit([FromRoute] int? id)
         {
+            if(id == null || id <= 0) return BadRequest("Invalid Id!");
+            var employee = await _unitOfWork.EmployeeRepository.GetAsync(id.Value);
 
-            var employee = _unitOfWork.EmployeeRepository.Get(id.Value);
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
 
 
@@ -101,7 +103,7 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
 
-        public IActionResult Edit([FromRoute] int id, CreateEmployeeDto employee)
+        public async Task<IActionResult> Edit([FromRoute] int id, CreateEmployeeDto employee)
         {
             
 
@@ -128,7 +130,7 @@ namespace Company.G02.PL.Controllers
 
                  _unitOfWork.EmployeeRepository.Update(_employee);
 
-                var count = _unitOfWork.Complete();
+                var count = await _unitOfWork.CompleteAsync();
 
                 if (count > 0)
                 {
@@ -140,13 +142,13 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute]int? id)
+        public async Task<IActionResult> Delete([FromRoute]int? id)
         {
             if (id <= 0) return BadRequest("Invalid Id!");
-            var employee = _unitOfWork.EmployeeRepository.Get(id.Value); if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
+            var employee = await _unitOfWork.EmployeeRepository.GetAsync(id.Value); if (employee == null) return NotFound(new { StatusCode = 404, massage = $"The Employee With ID:{id} Is Not Found!" });
 
             _unitOfWork.EmployeeRepository.Delete(employee);
-            var count = _unitOfWork.Complete();
+            var count = await _unitOfWork.CompleteAsync();
 
             if (count > 0)
             {

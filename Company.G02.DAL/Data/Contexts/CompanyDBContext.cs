@@ -1,4 +1,6 @@
 ﻿using Company.G02.DAL.Modles;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Company.G02.DAL.Data.Contexts
 {
-    public class CompanyDBContext : DbContext
+    public class CompanyDBContext : IdentityDbContext<AppUser>
     {
 
         public CompanyDBContext(DbContextOptions<CompanyDBContext> options ) : base(options)
@@ -27,5 +29,6 @@ namespace Company.G02.DAL.Data.Contexts
        public DbSet<Department> departments { get; set; }
 
          public DbSet<Employee> Employees { get; set; }
-        }
+
+    }
 }
