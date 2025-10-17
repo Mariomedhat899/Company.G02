@@ -21,8 +21,7 @@ namespace Company.G02.PL
             builder.Services.AddAutoMapper(m => m.AddProfile(new DepartmentProfile()));
 
 
-            //builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
-            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

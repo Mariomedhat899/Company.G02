@@ -3,6 +3,8 @@ using Company.G02.BLL;
 using Company.G02.BLL.InterFaces;
 using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
+using Company.G02.PL.Helpers;
+using GemBox.Document;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
@@ -47,23 +49,12 @@ namespace Company.G02.PL.Controllers
         [HttpPost]
         public IActionResult Create(CreateEmployeeDto model)
         {
+                    if (model.IMGFile != null) model.IMGName = DoucumentSettings.UploadFile(model.IMGFile, "Images");
+
+
             if (ModelState.IsValid)
             {
-                //var employee = new Employee()
-                //{
-                //    Name = model.Name,
-                //    Email = model.Email,
-                //    HireDate = model.HireDate,
-                //    CreateAt = model.CreateAt,
-                //    Age = model.Age,
-                //    Address = model.Address,
-                //    Salary = model.Salary,
-                //    IsActive = model.IsActive,
-                //    IsDeleted = model.IsDeleted,
-                //    Phone = model.Phone,
-                //    DepartmentId = model.DepartmentId
-
-                //};
+               
                 var employee = _mapper.Map<Employee>(model);
                 _unitOfWork.EmployeeRepository.Add(employee);
                 var count = _unitOfWork.Complete();
@@ -117,26 +108,19 @@ namespace Company.G02.PL.Controllers
             if (id == null || id <= 0) return BadRequest("Invalid Id!");
             if (ModelState.IsValid)
             {
-                
-                //if (id != employee.Id) return BadRequest();
-                //var _employee = new Employee()
-                //{
-                //    Id = id,
-                //    Name = employee.Name,
-                //    Email = employee.Email,
-                //    HireDate = employee.HireDate,
-                //    CreateAt = employee.CreateAt,
-                //    Age = employee.Age,
-                //    Address = employee.Address,
-                //    Salary = employee.Salary,
-                //    IsActive = employee.IsActive,
-                //    IsDeleted = employee.IsDeleted,
-                //    Phone = employee.Phone,
-                //    DepartmentId = employee.DepartmentId
 
-                //};
+                if(employee.IMGName is not null && employee.IMGFile is not null)
+                {
+                    DoucumentSettings.DeleteFile(employee.IMGName, "Images");
+                }
 
-               var _employee = _mapper.Map<Employee>(employee);
+                if(employee.IMGFile != null)
+                {
+                    employee.IMGName = DoucumentSettings.UploadFile(employee.IMGFile, "Images");
+                }       
+              
+
+                var _employee = _mapper.Map<Employee>(employee);
 
                 _employee.Id = id;
 
@@ -166,6 +150,9 @@ namespace Company.G02.PL.Controllers
 
             if (count > 0)
             {
+                if(employee.IMGName is not null)
+                    DoucumentSettings.DeleteFile(employee.IMGName, "Images");
+
                 return RedirectToAction("Index");
             }
 
