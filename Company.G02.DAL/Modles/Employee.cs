@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -34,6 +35,10 @@ namespace Company.G02.DAL.Modles
         public bool IsDeleted { get; set; }
 
         public string Phone { get; set; }
+
+        public string? IMGName { get; set; }
+
+  
 
 
 
