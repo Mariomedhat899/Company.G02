@@ -5,6 +5,7 @@ using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
 using Company.G02.PL.Helpers;
 using GemBox.Document;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace Company.G02.PL.Controllers
 {
+    [Authorize]
+
     public class EmployeeController : Controller
     {
         private readonly IMapper _mapper;
