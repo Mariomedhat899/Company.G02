@@ -1,0 +1,21 @@
+﻿@model UserToReturnDto
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Employee</h1>
+<br />
+<br />
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <partial name="UserPV/_CreateEditPView" />
+    <div class="m-4 ">
+        <input type="submit" value="Save" class="btn btn-warning mt-3 " />
+
+        <a asp-action="Index" class="btn btn-light mt-3">Back to List</a>
+    </div>
+</form>
+
+@section ValidationSection {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -76,7 +76,7 @@
                     <td>@item.IsDeleted</td>
                     <td>@item.CreateAt</td>
                     <td>@item.HireDate</td>
-                    <partial name="_buttonPV" model="@item.Id" />
+                    <partial name="_buttonPV" model="@item.Id.ToString()" />
 
                 </tr>
             }
