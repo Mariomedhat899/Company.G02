@@ -1,7 +1,15 @@
-﻿@model int
+﻿@model string
 
 @{
     var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    string ItemName = controllerName switch
+    {
+        "Employee" => "Employee",
+        "Department" => "Department",
+        "User" => "User",
+        _ => "Controller"
+    };
 }
 <td><a asp-action="Details" asp-route-id="@Model" class="btn btn-warning">Details</a></td>
 <td><a asp-action="Edit" asp-route-id="@Model" class="btn btn-success">Update</a></td>
@@ -9,7 +17,7 @@
     <form asp-action="Delete" asp-route-id="@Model" method="post" style="inline-size">
         @Html.AntiForgeryToken()
        
-        <button type="submit" class="btn btn-danger " onclick="return confirm('Are you sure you want to delete this  @(controllerName == "Employee" ? "Employee" : "Department")?');">
+        <button type="submit" class="btn btn-danger " onclick="return confirm('Are you sure you want to delete this  @ItemName?');">
             Delete
         </button>
 

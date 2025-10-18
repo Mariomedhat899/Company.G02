@@ -1,0 +1,27 @@
+﻿@model UserToReturnDto
+@{
+}
+
+<div>
+    <div>
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="FName" class="form-label mt-3"></label>
+        <input asp-for="FName" class="form-control" />
+        <span asp-validation-for="FName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="LName" class="form-label mt-3"></label>
+        <input asp-for="LName" class="form-control" />
+        <span asp-validation-for="LName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Email" class="form-label mt-3"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+</div>
