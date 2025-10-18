@@ -23,7 +23,10 @@ namespace Company.G02.PL
             builder.Services.AddAutoMapper(m => m.AddProfile(new DepartmentProfile()));
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
-                .AddEntityFrameworkStores<CompanyDBContext>();
+                .AddEntityFrameworkStores<CompanyDBContext>()
+                .AddDefaultTokenProviders();
+
+           
 
 
 
