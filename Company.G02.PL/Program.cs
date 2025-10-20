@@ -3,7 +3,10 @@ using Company.G02.BLL.InterFaces;
 using Company.G02.BLL.Repositories;
 using Company.G02.DAL.Data.Contexts;
 using Company.G02.DAL.Modles;
+using Company.G02.PL.Helpers;
+using Company.G02.PL.Helpers.Interfaces;
 using Company.G02.PL.Mapping;
+using Company.G02.PL.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +24,8 @@ namespace Company.G02.PL
 
             builder.Services.AddAutoMapper(m => m.AddProfile(new EmployeeProfle()));
             builder.Services.AddAutoMapper(m => m.AddProfile(new DepartmentProfile()));
+            builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
+            builder.Services.AddScoped<IMailService ,MailService>();
 
             builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<CompanyDBContext>()

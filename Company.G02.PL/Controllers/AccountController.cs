@@ -1,6 +1,7 @@
 ﻿using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
 using Company.G02.PL.Helpers;
+using Company.G02.PL.Helpers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -11,11 +12,15 @@ namespace Company.G02.PL.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _SigninManager;
+        private readonly  IMailService _mailService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> SigninManager)
+
+
+        public AccountController(IMailService mailService, UserManager<AppUser> userManager, SignInManager<AppUser> SigninManager)
         {
             _userManager = userManager;
             _SigninManager = SigninManager;
+            _mailService = mailService;
         }
 
 
@@ -175,15 +180,10 @@ namespace Company.G02.PL.Controllers
                         Body = url
                     };
 
-                    var flag = EmailSettings.SendEmail(email);
-
-
-
-                    if (flag)
-                    {
-
+                    //var flag = EmailSettings.SendEmail(email);
+                    _mailService.SendEmail(email);
                         return RedirectToAction("CheckYourInbox");
-                    }
+                    
 
                 }
 
