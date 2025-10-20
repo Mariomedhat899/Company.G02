@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserToReturnDto>
+﻿@model IEnumerable<RoleToReturnDto>
 <form>
     <div class="container mt-5 p-3 w-75">
         <div class=" row mx-auto">
@@ -11,11 +11,13 @@
         </div>
     </div>
 </form>
-    <h1>All Users</h1>
+    <h1>All Roles</h1>
 
     <br />
 
     <br />
+
+<a asp-action="Create" class="btn btn-primary">Create Role</a>
 
     <br />
     <br />
@@ -39,16 +41,7 @@
             {
                 <tr>
                     <td>@item.Id</td>
-                    <td>@item.UserName</td>
-                    <td>@item.FName</td>
-                    <td>@item.LName</td>
-                    <td>@item.Email</td>
-                    <td>
-                        @foreach(var role in item.Roles)
-                        {
-                            <span class="badge bg-info text-dark me-1">@role</span>
-                        }
-                    </td>
+                    <td>@item.Name</td>
                     <partial name="_buttonPV" model="@item.Id" />
 
                 </tr>
