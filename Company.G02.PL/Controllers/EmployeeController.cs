@@ -15,6 +15,7 @@ namespace Company.G02.PL.Controllers
 {
     [Authorize]
 
+
     public class EmployeeController : Controller
     {
         private readonly IMapper _mapper;
@@ -45,12 +46,33 @@ namespace Company.G02.PL.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Search(string? SearchInput)
+        {
+            IEnumerable<Employee> employees;
+
+            if (SearchInput is null)
+            {
+                employees = await _unitOfWork.EmployeeRepository.GetAllAsync();
+            }
+            else
+            {
+                employees = await _unitOfWork.EmployeeRepository.GetByNameAsync(SearchInput);
+            }
+
+            return PartialView("EmployeePV/EmpTablePV",employees);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
 
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Create(CreateEmployeeDto model)
         {
                     if (model.IMGFile != null) model.IMGName = DoucumentSettings.UploadFile(model.IMGFile, "Images");
@@ -89,6 +111,7 @@ namespace Company.G02.PL.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Edit([FromRoute] int? id)
         {
@@ -105,6 +128,7 @@ namespace Company.G02.PL.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Edit([FromRoute] int id, CreateEmployeeDto employee)
         {
@@ -145,6 +169,8 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete([FromRoute]int? id)
         {
             if (id <= 0) return BadRequest("Invalid Id!");

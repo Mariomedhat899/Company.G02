@@ -1,6 +1,7 @@
 ﻿using Company.G02.DAL.Modles;
 using Company.G02.PL.DTOS;
 using Company.G02.PL.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Company.G02.PL.Controllers
 {
+    [Authorize]
+
     public class RoleController(RoleManager<IdentityRole> _rolesManager,UserManager<AppUser> _userManager) : Controller
     {
 
@@ -40,6 +43,8 @@ namespace Company.G02.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
 
@@ -97,6 +102,7 @@ namespace Company.G02.PL.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Edit([FromRoute] string? id)
         {
@@ -117,6 +123,7 @@ namespace Company.G02.PL.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> Edit([FromRoute] string id, RoleToReturnDto _Role)
         {
@@ -151,6 +158,8 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete([FromRoute] string? id)
         {
             if (id is null) return BadRequest("Invalid Id!");
@@ -228,8 +237,8 @@ namespace Company.G02.PL.Controllers
 
                         }
                     }
-                  return RedirectToAction(nameof(Edit),new {Id = RoleId});
                 }
+                  return RedirectToAction(nameof(Edit),new {Id = RoleId});
             }
 
             return View(users);

@@ -29,6 +29,8 @@ namespace Company.G02.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
             return View();
@@ -36,6 +38,8 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Create(CreateDepartmentDto model)
         {
 
@@ -80,6 +84,8 @@ namespace Company.G02.PL.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Edit([FromRoute]int? id)
         {
 
@@ -109,6 +115,8 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Edit([FromRoute] int id, CreateDepartmentDto department)
         {
 
@@ -159,6 +167,8 @@ namespace Company.G02.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
