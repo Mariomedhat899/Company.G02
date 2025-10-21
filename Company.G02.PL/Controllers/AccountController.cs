@@ -23,6 +23,10 @@ namespace Company.G02.PL.Controllers
             _mailService = mailService;
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult SignUp()

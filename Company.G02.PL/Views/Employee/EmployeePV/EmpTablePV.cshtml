@@ -1,28 +1,7 @@
 ﻿@model IEnumerable<Employee>
-<form>
-    <div class="container mt-5 p-3 w-75">
-        <div class=" row mx-auto">
-            <div class="col-6">
-                <input id="SearchInput" placeholder="Search By  Name" name="SearchInput" class="form-control" />
-            </div>
-            <div class="col-6">
-                <button type="submit" class="btn btn-success ">Search</button>
-            </div>
-        </div>
-    </div>
-</form>
-    <h1>All Employee</h1>
 
-    <br />
 
-    <br />
-
-    <a asp-action="Create" class="btn btn-primary">Create Employee</a>
-
-    <br />
-    <br />
-
-@if(Model.Count()>0)
+@if (Model.Count() > 0)
 {
     <table class="table table-hover table-striped table-sm ">
         <thead>
@@ -44,8 +23,8 @@
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody >
-            @foreach(var item in Model)
+        <tbody>
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -58,7 +37,7 @@
                     <td>@item.Phone</td>
                     <td>
                         @{
-                            if(item.Department is not null)
+                            if (item.Department is not null)
                             {
                                 @item.Department.Name
 
@@ -67,7 +46,7 @@
                             {
                                 <text> No Department </text>
 
-                                
+
                             }
                         }
                     </td>
@@ -82,33 +61,9 @@
             }
         </tbody>
     </table>
-    
-}else{
-<h4 class="mt-4 alert alert-info">No Employee Found :(</h4>
+
 }
-
-
-
-<script>
-       const SearchBar = $('#SearchInput');
-    const table = $('table');
-
-    SearchBar.on('keyup', function () {
-
-        var SearchLetters = SearchBar.val().toLowerCase();
-
-        $.ajax({
-            url: '/Employee/Search',
-            type: 'GET',
-            data: { SearchInput: SearchLetters },
-            success: function (result) {
-                table.html(result);
-            },
-            error: function (xhr, status, error) {
-                console.log(error);
-            }
-        });
-    });
-
-    
-</script>
+else
+{
+    <h4 class="mt-4 alert alert-info">No Employee Found :(</h4>
+}
